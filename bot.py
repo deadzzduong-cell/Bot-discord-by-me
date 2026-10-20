@@ -27,7 +27,7 @@ async def on_member_join(member):
             print(f"Lỗi khi gán vai trò: {e}")
 
     # 2. Gửi tin nhắn Chào mừng
-    channel = discord.utils.get(member.guild.text_channels, name="chào-mừng") 
+    channel = discord.utils.get(member.guild.text_channels, name="chung") 
     if channel:
         embed = discord.Embed(
             title="🎉 Thành viên mới gia nhập!",
@@ -43,7 +43,7 @@ async def on_member_join(member):
 # --- SỰ KIỆN THÀNH VIÊN RỜI SERVER (GOODBYE) ---
 @bot.event
 async def on_member_remove(member):
-    channel = discord.utils.get(member.guild.text_channels, name="tạm-biệt")
+    channel = discord.utils.get(member.guild.text_channels, name="chung")
     if channel:
         embed = discord.Embed(
             title="👋 Thành viên rời đi",
