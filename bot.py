@@ -167,4 +167,4 @@ async def command_error(ctx, error):
 keep_alive()
 
 # Chạy bot bằng Token của bạn
-bot.run('MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GTkKa2.oAHgLe-1weB-QJMD4A7Gv-Xrkl_wVZ6-vIFhyE')
+bot.run('MTU2MTQzNTgzMjgzNjAzMDQ5Ng.G87L7V.qb-KEfBGMEHdN1X_rNV3E6PcCYqtmyAuPFJ60c')
