@@ -76,7 +76,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 # -------------------------------------------------------------
 # KHỞI ĐỘNG BOT TRÊN TERMUX
 # -------------------------------------------------------------
-TOKEN = "MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GznsZt.3gS0kWVZccEhaM9lVLTkxbL5Og0CGZ9N4OvAvE"
+TOKEN = "MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GvI8BS.pNzDyQo3yKOiB0s1GzKAhML1LUIyDm9G9XObDQ"
 
 if __name__ == "__main__":
     bot.run(TOKEN)
