@@ -44,7 +44,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 # -------------------------------------------------------------
 # BƯỚC 3: Lấy Token bảo mật từ biến môi trường trên Render
 # -------------------------------------------------------------
-TOKEN = os.getenv("MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GqUyF5.Ub2AdQQmf8_4DAqebLOH2LbYvTnkPwACiXIy_c")
+TOKEN = os.getenv("MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GjWvYi.u5p4MPV12qR1a8XXV1n_bcJi3kNYophezS5whY")
 if TOKEN is None:
     print("Lỗi: Không tìm thấy biến môi trường DISCORD_TOKEN!")
 else:
