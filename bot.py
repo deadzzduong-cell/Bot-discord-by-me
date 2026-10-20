@@ -4,6 +4,14 @@ import asyncio
 import discord
 from discord.ext import commands
 
+# -------------------------------------------------------------
+# CẤU HÌNH CÁC ID VÀ TOKEN (Thay đổi thông tin của bạn tại đây)
+# -------------------------------------------------------------
+WELCOME_CHANNEL_ID = 1476494395204435978  # ID kênh gửi thông báo Chào mừng / Tạm biệt
+LEVEL_CHANNEL_ID = 1562086216000733296    # ID kênh gửi thông báo Lên Cấp (Level Up)
+MEMBER_ROLE_NAME = "Human"                # Tên role muốn tự động cấp
+TOKEN = "DÁN_TOKEN_THẬT_CỦA_BẠN_VÀO_ĐÂY"
+
 # --- Cấu hình các thiết lập cơ bản cho bot ---
 intents = discord.Intents.default()
 intents.members = True          # Bật intent để nhận sự kiện thành viên tham gia/rời đi
@@ -22,8 +30,8 @@ async def on_ready():
 # --- SỰ KIỆN THÀNH VIÊN MỚI THAM GIA (WELCOME + AUTOROLE) ---
 @bot.event
 async def on_member_join(member):
-    # 1. Tự động gán role 'Member'
-    role = discord.utils.get(member.guild.roles, name="Human")
+    # 1. Tự động gán role 'Human' (hoặc role bạn chọn)
+    role = discord.utils.get(member.guild.roles, name=MEMBER_ROLE_NAME)
     if role:
         try:
             await member.add_roles(role)
@@ -31,8 +39,8 @@ async def on_member_join(member):
         except Exception as e:
             print(f"Lỗi khi gán vai trò: {e}")
 
-    # 2. Gửi tin nhắn Chào mừng
-    channel = discord.utils.get(member.guild.text_channels, name="welcome-and-goodbye") 
+    # 2. Gửi tin nhắn Chào mừng qua ID Kênh
+    channel = bot.get_channel(WELCOME_CHANNEL_ID) 
     if channel:
         embed = discord.Embed(
             title="🎉 Thành viên mới gia nhập!",
@@ -48,7 +56,8 @@ async def on_member_join(member):
 # --- SỰ KIỆN THÀNH VIÊN RỜI SERVER (GOODBYE) ---
 @bot.event
 async def on_member_remove(member):
-    channel = discord.utils.get(member.guild.text_channels, name="welcome-and-goodbye")
+    # Gửi tin nhắn Tạm biệt qua ID Kênh
+    channel = bot.get_channel(WELCOME_CHANNEL_ID)
     if channel:
         embed = discord.Embed(
             title="👋 Thành viên rời đi",
@@ -60,7 +69,7 @@ async def on_member_remove(member):
         
         await channel.send(embed=embed)
 
-# --- HỆ THỐNG XP & LEVEL KHI NHẮN TIN ---
+# --- HỆ THỐNG XP & LEVEL KHI NHẮN TIN (GỬI QUA KÊNH LEVEL ID) ---
 @bot.event
 async def on_message(message):
     if message.author.bot:
@@ -81,7 +90,14 @@ async def on_message(message):
     if current_xp >= needed_xp:
         user_xp[author_id]["level"] += 1
         user_xp[author_id]["xp"] = 0
-        await message.channel.send(f"🎉 Chúc mừng {message.author.mention} đã đạt **Level {current_level + 1}**! 🚀")
+        
+        # Gửi thông báo Lên cấp sang kênh Level riêng biệt qua ID Kênh
+        level_channel = bot.get_channel(LEVEL_CHANNEL_ID)
+        if level_channel:
+            await level_channel.send(f"🎉 Chúc mừng {message.author.mention} đã đạt **Level {current_level + 1}**! 🚀")
+        else:
+            # Nếu không tìm thấy kênh theo ID trên, gửi tạm vào kênh hiện tại
+            await message.channel.send(f"🎉 Chúc mừng {message.author.mention} đã đạt **Level {current_level + 1}**! 🚀")
 
     # Bắt buộc phải có dòng này để bot tiếp tục nhận diện các lệnh dấu `!`
     await bot.process_commands(message)
@@ -183,7 +199,5 @@ async def wheel_of_names(ctx, *, names_str: str = None):
 # -------------------------------------------------------------
 # KHỞI ĐỘNG BOT
 # -------------------------------------------------------------
-TOKEN = "DÁN_TOKEN_THẬT_CỦA_BẠN_VÀO_ĐÂY"
-
 if __name__ == "__main__":
     bot.run(TOKEN)
