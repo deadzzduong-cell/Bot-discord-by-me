@@ -23,7 +23,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     # 1. Tự động gán role 'Member'
-    role = discord.utils.get(member.guild.roles, name="Member")
+    role = discord.utils.get(member.guild.roles, name="Human")
     if role:
         try:
             await member.add_roles(role)
@@ -32,7 +32,7 @@ async def on_member_join(member):
             print(f"Lỗi khi gán vai trò: {e}")
 
     # 2. Gửi tin nhắn Chào mừng
-    channel = discord.utils.get(member.guild.text_channels, name="chung") 
+    channel = discord.utils.get(member.guild.text_channels, name="welcome-and-goodbye") 
     if channel:
         embed = discord.Embed(
             title="🎉 Thành viên mới gia nhập!",
@@ -48,7 +48,7 @@ async def on_member_join(member):
 # --- SỰ KIỆN THÀNH VIÊN RỜI SERVER (GOODBYE) ---
 @bot.event
 async def on_member_remove(member):
-    channel = discord.utils.get(member.guild.text_channels, name="chung")
+    channel = discord.utils.get(member.guild.text_channels, name="welcome-and-goodbye")
     if channel:
         embed = discord.Embed(
             title="👋 Thành viên rời đi",
