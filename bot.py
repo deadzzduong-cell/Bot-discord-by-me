@@ -17,7 +17,7 @@ async def on_ready():
 # --- SỰ KIỆN THÀNH VIÊN MỚI THAM GIA (WELCOME + AUTOROLE) ---
 @bot.event
 async def on_member_join(member):
-    # 1. Tự động gán role 'Member' (hoặc 'Thành Viên')
+    # 1. Tự động gán role 'Member'
     role = discord.utils.get(member.guild.roles, name="Member")
     if role:
         try:
@@ -27,7 +27,6 @@ async def on_member_join(member):
             print(f"Lỗi khi gán vai trò: {e}")
 
     # 2. Gửi tin nhắn Chào mừng
-    # Thay 'chào-mừng' bằng tên kênh chat bạn muốn bot gửi tin nhắn vào
     channel = discord.utils.get(member.guild.text_channels, name="chào-mừng") 
     if channel:
         embed = discord.Embed(
@@ -44,7 +43,6 @@ async def on_member_join(member):
 # --- SỰ KIỆN THÀNH VIÊN RỜI SERVER (GOODBYE) ---
 @bot.event
 async def on_member_remove(member):
-    # Thay 'tạm-biệt' bằng tên kênh chat bạn muốn bot gửi tin nhắn vào
     channel = discord.utils.get(member.guild.text_channels, name="tạm-biệt")
     if channel:
         embed = discord.Embed(
@@ -57,7 +55,7 @@ async def on_member_remove(member):
         
         await channel.send(embed=embed)
 
-# --- CÁC LỆNH QUẢN LÝ ---
+# --- CÁC LỆNH QUẢN LÝ VÀ TIỆN ÍCH ---
 @bot.command()
 async def clear(ctx, amount: int = 5):
     await ctx.channel.purge(limit=amount + 1)
@@ -73,10 +71,22 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
     await ctx.send(f"Đã ban thành công {member.mention}")
 
+@bot.command(name="avatar")
+async def get_avatar(ctx, member: discord.Member = None):
+    if member is None:
+        member = ctx.author
+        
+    embed = discord.Embed(
+        title=f"🖼️ Avatar của {member.name}",
+        color=discord.Color.blue()
+    )
+    embed.set_image(url=member.display_avatar.url)
+    await ctx.send(embed=embed)
+
 # -------------------------------------------------------------
-# KHỞI ĐỘNG BOT TRÊN TERMUX
+# KHỞI ĐỘNG BOT
 # -------------------------------------------------------------
-TOKEN = "MTU2MTQzNTgzMjgzNjAzMDQ5Ng.GvI8BS.pNzDyQo3yKOiB0s1GzKAhML1LUIyDm9G9XObDQ"
+TOKEN = "DÁN_TOKEN_THẬT_CỦA_BẠN_VÀO_ĐÂY"
 
 if __name__ == "__main__":
     bot.run(TOKEN)
